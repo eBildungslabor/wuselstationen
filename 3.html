@@ -2,45 +2,100 @@
 <html lang="de">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta charset="UTF-8">
-       <link rel="stylesheet" href="css/pico.min.css">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/pico.min.css">
     <script src="js/common.js"></script>
     <title>Wuselstationen</title>
 </head>
 <body>
-
-
     <main class="container">
-
-<h1>Wuselstation #x: Titel</h1>
-
-  <article id="article">
-     👉 Kurze Info , um was es geht.
-  </article>
-
-  <details>
-        <summary>Hintergrund</summary>
-        <p>Was ist der Sinn dieser Station?
-        </p>
-      
-    </details>
-    <details>
-        <summary>Benötigtes Material</summary>
-       <ul>
-      <li>Was braucht man/ was stellen wir an den Tischen zur Verfügung?
-
-       </ul>
-    </details>
-
-<h2>Beschreibung</h2>
-<p>Was kann hier gemacht werden? Wie soll man das machen?
-</p>
-
-
-    <p> <p><a href="index.html"><button>⬅ Zurück zur Übersicht</button></a></p>
-</main>
-
-    
-
+        <h1>Wuselstation #3: Pädagogische Widersprüche austarieren</h1>
+        <article id="article">
+            👉 Gemeinsam mit Kolleg*innen nutzt du Schieberegler zur Reflexion und Weiterentwicklung deines Unterrichts.
+        </article>
+        <details>
+            <summary>Hintergrund</summary>
+            <p>Schieberegler stellen ein hilfreiches Instrument dar, um erstens zu analysieren, wo man gerade steht und anschließend zu überlegen, wie man weiter in die eine oder die andere Richtung kommen kann.</p>
+        </details>
+        <details>
+            <summary>Benötigtes Material</summary>
+            <p>Auf den Tischen liegen die folgenden Widersprüche aus:</p>
+            <ul>
+                <li>bewerten ~ wertschätzen</li>
+                <li>erklären ~ zuhören</li>
+                <li>vertrauen ~ kontrollieren</li>
+                <li>anleiten ~ begleiten</li>
+                <li>stabilisieren ~ irritieren</li>
+                <li>vorgeben ~ aushandeln</li>
+                <li>zumuten ~ unterstützen</li>
+                <li>ermutigen ~ begrenzen</li>
+            </ul>
+        </details>
+        <h2>Beschreibung</h2>
+        <ol>
+            <li>Wählt euch nacheinander einen Widerspruch aus.</li>
+            <li>Überlegt euch, wo ihr in diesem Spannungsfeld steht und in welche Richtung in einer zeitgemäßen Bildung Bewegung aus eurer Sicht nötig ist.</li>
+            <li>Überlegt euch drei konkrete Ideen, wie ihr weiter in die jeweilige Richtung kommen könntet.</li>
+        </ol>
+        <p>Anschließend könnt ihr den nächsten Widerspruch auswählen oder auch zu einer anderen Wuselstation weiter gehen.</p>
+        
+        <h3>KI als Unterstützung nutzen</h3>
+        <p>Wenn ihr KI mit an den Tisch holen wollt, dann wählt zunächst euren Widerspruch aus:</p>
+        
+        <label for="widerspruch">Widerspruch auswählen:</label>
+        <select id="widerspruch" onchange="generatePrompt()">
+            <option value="">-- Bitte auswählen --</option>
+            <option value="bewerten ~ wertschätzen">bewerten ~ wertschätzen</option>
+            <option value="erklären ~ zuhören">erklären ~ zuhören</option>
+            <option value="vertrauen ~ kontrollieren">vertrauen ~ kontrollieren</option>
+            <option value="anleiten ~ begleiten">anleiten ~ begleiten</option>
+            <option value="stabilisieren ~ irritieren">stabilisieren ~ irritieren</option>
+            <option value="vorgeben ~ aushandeln">vorgeben ~ aushandeln</option>
+            <option value="zumuten ~ unterstützen">zumuten ~ unterstützen</option>
+            <option value="ermutigen ~ begrenzen">ermutigen ~ begrenzen</option>
+        </select>
+        
+        <div id="promptContainer" style="display:none; margin-top: 1rem;">
+            <textarea id="generatedPrompt" rows="10" readonly></textarea>
+            <button onclick="copyPromptWiderspruch()">Prompt kopieren</button>
+            <small id="successWiderspruch" style="display:none; color: var(--pico-primary);">
+                ✅ Prompt wurde kopiert.
+            </small>
+        </div>
+        
+        <p style="margin-top: 1rem;">Ihr könnt diesen Prompt in einem KI-Sprachmodell eurer Wahl nutzen. Einen registrierungsfreien Zugang erhaltet ihr über <a href="https://duck.ai" target="_blank">duck.ai</a>.</p>
+        
+        <script>
+            function generatePrompt() {
+                const select = document.getElementById('widerspruch');
+                const selectedValue = select.value;
+                const container = document.getElementById('promptContainer');
+                const textarea = document.getElementById('generatedPrompt');
+                
+                if (selectedValue) {
+                    const prompt = `Du bist eine dialogische Denk- und Impulsinstanz für mich. Ich bin eine pädagogisch tätige Person, die sich in Vorbereitung einer Gruppendiskussion Gedanken über gute Lerngestaltung in einer zunehmend digital geprägten, sich schnell wandelnden und krisenhaften Welt macht. Ich habe hierzu das folgende Spannungsfeld in der Lerngestaltung zugeteilt bekommen: ${selectedValue}. Bitte starte damit, dass du mir anhand eines Beispiels erklärst, was mit diesem Spannungsfeld gemeint ist. Ich werde dann weiter nachfragen. Bitte gib mir immer pro Antwort nur einen Aspekt an. Schreibe prägnant und verständlich. Stelle keine weiteren Fragen und mache mir keine Angebote, was du sonst noch erledigen könntest, sondern warte darauf, was ich von dir erfrage.`;
+                    
+                    textarea.value = prompt;
+                    container.style.display = 'block';
+                } else {
+                    container.style.display = 'none';
+                }
+            }
+            
+            function copyPromptWiderspruch() {
+                const textarea = document.getElementById('generatedPrompt');
+                textarea.select();
+                document.execCommand('copy');
+                
+                const success = document.getElementById('successWiderspruch');
+                success.style.display = 'inline';
+                setTimeout(() => {
+                    success.style.display = 'none';
+                }, 3000);
+            }
+        </script>
+        
+        <p><a href="index.html"><button>⬅ Zurück zur Übersicht</button></a></p>
+    </main>
 </body>
 </html>
